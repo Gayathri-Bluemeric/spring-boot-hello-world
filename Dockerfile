@@ -5,7 +5,7 @@
 # Stage 1 - Build the project 
 FROM ubuntu:latest AS build
 ENV WORKDIR /out
-COPY /out ${WORKDIR}
+COPY ./ ${WORKDIR}
 WORKDIR ${WORKDIR}
 RUN apt-get update && apt-get install default-jdk curl maven -y && mvn clean install
 
