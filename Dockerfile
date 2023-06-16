@@ -4,18 +4,18 @@
 
 # Stage 1 - Build the project 
 FROM ubuntu:latest AS build
-ENV WORKDIR /output
-COPY /output ${WORKDIR}
+ENV WORKDIR /out
+COPY /out ${WORKDIR}
 WORKDIR ${WORKDIR}
 RUN apt-get update && apt-get install default-jdk curl maven -y && mvn clean install
 
 # Stage 2 - Run the project
 FROM ubuntu:latest
 ENV APPDIR /app
-ENV OUTPUTDIR /output
+ENV OUTPUTDIR ./
 RUN mkdir -p ${APPDIR}/${OUTPUTDIR}
 WORKDIR ${APPDIR}
-COPY --from=build ${OUTPUTDIR} ${APPDIR}/${OUTPUTDIR}
+COPY --from=build /out ${APPDIR}/${OUTPUTDIR}
 
 # Add Environment Variables
 ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/sail/gpctl/gpctl/gpcmdline
