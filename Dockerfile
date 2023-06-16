@@ -13,9 +13,10 @@ RUN apt-get update && apt-get install default-jdk curl maven -y && mvn clean ins
 FROM ubuntu:latest
 ENV APPDIR /app
 ENV OUTPUTDIR ./
+ENV BUILD_OUT /out
 RUN mkdir -p ${APPDIR}/${OUTPUTDIR}
 WORKDIR ${APPDIR}
-COPY --from=build /out ${APPDIR}/${OUTPUTDIR}
+COPY --from=build ${BUILD_OUT} ${APPDIR}/${OUTPUTDIR}
 
 # Add Environment Variables
 ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/sail/gpctl/gpctl/gpcmdline
