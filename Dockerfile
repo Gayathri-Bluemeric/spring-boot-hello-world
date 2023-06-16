@@ -4,15 +4,15 @@
 
 # Stage 1 - Build the project 
 FROM ubuntu:latest AS build
-ENV WORKDIR ./
-COPY ./ ${WORKDIR}
+ENV WORKDIR /output
+COPY /output ${WORKDIR}
 WORKDIR ${WORKDIR}
 RUN apt-get update && apt-get install default-jdk curl maven -y && mvn clean install
 
 # Stage 2 - Run the project
 FROM ubuntu:latest
 ENV APPDIR /app
-ENV OUTPUTDIR ./
+ENV OUTPUTDIR /output
 RUN mkdir -p ${APPDIR}/${OUTPUTDIR}
 WORKDIR ${APPDIR}
 COPY --from=build ${OUTPUTDIR} ${APPDIR}/${OUTPUTDIR}
